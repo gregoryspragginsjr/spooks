@@ -2,10 +2,11 @@
 
 pragma solidity 0.8.4;
 
-import "https://github.com/gregoryspragginsjr/spooks/Spooks.sol";
-import "https://github.com/net2devcrypto/n2dstaking/Collection.sol";
+import "https://github.com/gregoryspragginsjr/spooks/blob/master/Spooks.sol";
+import "https://github.com/gregoryspragginsjr/spooks/blob/master/Collection.sol";
+import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 
-contract NFTStaking is Ownable, IERC721Receiver {
+contract NFTStaking is Ownable, IERC1155Receiver {
 
   uint256 public totalStaked;
   
@@ -22,12 +23,12 @@ contract NFTStaking is Ownable, IERC721Receiver {
 
   // reference to the Block NFT contract
   Collection nft;
-  N2DRewards token;
+  Spooks token;
 
   // maps tokenId to stake
   mapping(uint256 => Stake) public vault; 
 
-   constructor(Collection _nft, N2DRewards _token) { 
+   constructor(Collection _nft, Spooks _token) { 
     nft = _nft;
     token = _token;
   }
@@ -151,14 +152,15 @@ contract NFTStaking is Ownable, IERC721Receiver {
     return tokens;
   }
 
-  function onERC721Received(
+  function onERC1155Received(
         address,
         address from,
         uint256,
+        uint256 value,
         bytes calldata
     ) external pure override returns (bytes4) {
       require(from == address(0x0), "Cannot send nfts to Vault directly");
-      return IERC721Receiver.onERC721Received.selector;
+      return IERC1155Receiver.onERC1155Received.selector;
     }
   
 }

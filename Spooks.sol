@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 
-contract N2DRewards is ERC20, ERC20Burnable, Ownable {
+contract Spooks is ERC20, ERC20Burnable, Ownable {
 
   mapping(address => bool) controllers;
   
