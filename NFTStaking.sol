@@ -3,10 +3,9 @@
 pragma solidity 0.8.4;
 
 import "https://github.com/gregoryspragginsjr/spooks/blob/master/Spooks.sol";
-import "https://github.com/gregoryspragginsjr/spooks/blob/master/Collection.sol";
-import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
+import "https://github.com/gregoryspragginsjr/spooks/blob/master/Ghost.sol";
 
-contract NFTStaking is Ownable, IERC1155Receiver {
+contract NFTStaking is Ownable, IERC721Receiver {
 
   uint256 public totalStaked;
   
@@ -152,15 +151,14 @@ contract NFTStaking is Ownable, IERC1155Receiver {
     return tokens;
   }
 
-  function onERC1155Received(
+  function onERC721Received(
         address,
         address from,
         uint256,
-        uint256 value,
         bytes calldata
     ) external pure override returns (bytes4) {
       require(from == address(0x0), "Cannot send nfts to Vault directly");
-      return IERC1155Receiver.onERC1155Received.selector;
+      return IERC721Receiver.onERC721Received.selector;
     }
   
 }
